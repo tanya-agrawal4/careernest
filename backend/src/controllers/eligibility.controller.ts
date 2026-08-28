@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import prisma from '../config/prismaClient.js';
-import { cacheGet, cacheSet } from '../config/redisClient.js';
+import { cacheGet, cacheSet, cacheDel } from '../config/redisClient.js';
 import {
   calculateMatchScore,
   APPLY_THRESHOLD,
@@ -248,7 +248,7 @@ export const checkAndApply = async (req: Request, res: Response): Promise<void> 
     // Fire-and-forget: cache invalidation failure must never break the apply flow.
     void (async () => {
       try {
-        await redisClient.del('jobs:all');
+        await cacheDel('jobs:all');
         console.log('[Cache] DEL jobs:all — applicant count updated after new application');
       } catch (cacheErr) {
         console.error('[Cache] DEL jobs:all failed (non-fatal):', cacheErr);
