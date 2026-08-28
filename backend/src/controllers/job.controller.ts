@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import prisma from '../config/prismaClient.js';
-import redisClient from '../config/redisClient.js';
+import { cacheGet, cacheSet, cacheDel } from '../config/redisClient.js';
 import { parseJobDescription } from '../services/llm.service.js';
 
 // BUG FIX (Bug 3): Added to support getJobApplicants response typing
@@ -57,31 +57,15 @@ const TTL = {
 // This ensures zero cascading failures: Redis down ≠ API down.
 // =============================================================================
 async function safeRedisGet(key: string): Promise<string | null> {
-  try {
-    return await redisClient.get(key);
-  } catch (err) {
-    console.error(`[Cache] GET "${key}" failed — falling back to DB:`, err);
-    return null;
-  }
+  return cacheGet(key);
 }
 
 async function safeRedisSetex(key: string, ttl: number, value: string): Promise<void> {
-  try {
-    await redisClient.setex(key, ttl, value);
-    console.log(`[Cache] SET "${key}" (TTL: ${ttl}s)`);
-  } catch (err) {
-    console.error(`[Cache] SETEX "${key}" failed — data still returned from DB:`, err);
-    // Non-fatal: the response is still sent, just not cached this cycle
-  }
+  await cacheSet(key, ttl, value);
 }
 
 async function safeRedisDel(key: string): Promise<void> {
-  try {
-    await redisClient.del(key);
-    console.log(`[Cache] DEL "${key}" (invalidated)`);
-  } catch (err) {
-    console.error(`[Cache] DEL "${key}" failed:`, err);
-  }
+  await cacheDel(key);
 }
 
 /**

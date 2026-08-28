@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import app from './app.js';
-import redisClient from './config/redisClient.js';
+import { redisReady } from './config/redisClient.js';
 
 dotenv.config();
 
@@ -8,8 +8,8 @@ const PORT = process.env['PORT'] ?? 5000;
 
 const startServer = async (): Promise<void> => {
   try {
-    const pingResult = await redisClient.ping();
-    console.log(`✅ Redis connection test: ${pingResult}`);
+    // Wait for Redis init to complete (connects or gracefully disables).
+    await redisReady;
 
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on port ${PORT}`);
@@ -19,5 +19,6 @@ const startServer = async (): Promise<void> => {
     process.exit(1);
   }
 };
+
 
 startServer();

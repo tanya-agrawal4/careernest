@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import prisma from '../config/prismaClient.js';
-import redisClient from '../config/redisClient.js';
+import { cacheGet, cacheSet } from '../config/redisClient.js';
 import {
   calculateMatchScore,
   APPLY_THRESHOLD,
@@ -52,20 +52,11 @@ const JOBS_ALL_KEY = 'jobs:all';
 const JOBS_ALL_TTL = 3_600; // 1 hour
 
 async function safeRedisGet(key: string): Promise<string | null> {
-  try {
-    return await redisClient.get(key);
-  } catch {
-    console.error(`[Cache] GET "${key}" failed — falling back to DB`);
-    return null;
-  }
+  return cacheGet(key);
 }
 
 async function safeRedisSetex(key: string, ttl: number, value: string): Promise<void> {
-  try {
-    await redisClient.setex(key, ttl, value);
-  } catch {
-    console.error(`[Cache] SETEX "${key}" failed — data still returned`);
-  }
+  await cacheSet(key, ttl, value);
 }
 
 // =============================================================================

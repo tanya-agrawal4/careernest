@@ -5,25 +5,73 @@ dotenv.config();
 
 const redisUrl = process.env['REDIS_URL'] ?? 'redis://localhost:6379';
 
-// ioredis is a CommonJS package. Under nodenext + ESM, the default export
-// is the Redis constructor accessed via the module's default export.
-const redisClient = new Redis(redisUrl, {
-  maxRetriesPerRequest: null,
-  retryStrategy(times: number) {
-    // Exponential backoff: caps at 2s between retries.
-    // Does NOT crash the app — ioredis silently retries in the background.
-    const delay = Math.min(times * 50, 2000);
-    return delay;
-  },
+let redisClient: Redis | null = null;
+
+async function initRedis(): Promise<Redis | null> {
+  const client = new Redis(redisUrl, {
+    lazyConnect: true,
+    maxRetriesPerRequest: 1,
+    connectTimeout: 5000,
+    retryStrategy() {
+      // Do NOT retry — return null to stop immediately.
+      return null;
+    },
+  });
+
+  // Swallow background errors so ioredis never crashes the process.
+  client.on('error', () => {
+    /* intentionally silenced */
+  });
+
+  try {
+    await client.connect();
+    console.log('✅ Redis client connected');
+    return client;
+  } catch {
+    console.warn('⚠️  Redis disabled — running without cache');
+    // Disconnect the failed client so it doesn't keep its socket open.
+    client.disconnect();
+    return null;
+  }
+}
+
+// Eagerly initialise; the promise resolves before the first request
+// because server.ts awaits `redisReady` before calling app.listen().
+const redisReady: Promise<void> = initRedis().then((c) => {
+  redisClient = c;
 });
 
-redisClient.on('connect', () => {
-  console.log('✅ Redis client connected');
-});
-
-redisClient.on('error', (err: Error) => {
-  // Log but do NOT throw — lets the app stay alive if Redis is temporarily down.
-  console.error('Redis client error:', err.message);
-});
-
+export { redisReady };
 export default redisClient;
+
+/**
+ * Convenience helpers so callers don't need to null-check everywhere.
+ * Each method silently returns null / does nothing when Redis is unavailable.
+ */
+export async function cacheGet(key: string): Promise<string | null> {
+  try {
+    return (await redisClient?.get(key)) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function cacheSet(
+  key: string,
+  ttl: number,
+  value: string,
+): Promise<void> {
+  try {
+    await redisClient?.setex(key, ttl, value);
+  } catch {
+    /* cache write failure is non-fatal */
+  }
+}
+
+export async function cacheDel(key: string): Promise<void> {
+  try {
+    await redisClient?.del(key);
+  } catch {
+    /* cache delete failure is non-fatal */
+  }
+}
