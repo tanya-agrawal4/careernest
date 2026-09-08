@@ -1,8 +1,6 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';           // Load .env BEFORE any other import
 import app from './app.js';
 import { redisReady } from './config/redisClient.js';
-
-dotenv.config();
 
 const PORT = process.env['PORT'] ?? 5000;
 

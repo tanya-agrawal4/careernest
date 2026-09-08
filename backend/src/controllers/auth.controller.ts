@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+﻿import type { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import type { Role } from '@prisma/client';
@@ -12,14 +12,6 @@ const SALT_ROUNDS = 12; // bcrypt work factor — 12 is the production sweet spo
 
 /**
  * Registers a new user and provisions their role-specific profile.
- *
- * @param {Request} req - Express request object containing email, password, and role.
- * @param {Response} res - Express response object.
- * 
- * @architecture
- * We manually execute a two-step creation process (User -> Profile) with a programmatic rollback
- * if the profile fails. This avoids Prisma's `$transaction` API which requires a full Replica Set
- * on MongoDB, ensuring compatibility across both local standalone databases and cloud environments.
  */
 export const register = async (req: Request, res: Response): Promise<void> => {
   const {
@@ -94,7 +86,6 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     try {
       if (role === 'STUDENT') {
-        // Parse and validate CGPA — must be 0.0–10.0; default to 0 if absent/invalid
         const parsedCgpa = parseFloat(String(cgpa ?? ''));
         const safeCgpa   = (!isNaN(parsedCgpa) && parsedCgpa >= 0 && parsedCgpa <= 10)
           ? parsedCgpa
@@ -122,7 +113,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       }
     } catch (profileError) {
       await prisma.user.delete({ where: { id: user.id } });
-      console.error('Profile creation failed, user rolled back:', profileError);
+      // Log the full Prisma error for debugging in Render logs
+      console.error('[register] Profile creation failed — user rolled back:', profileError);
       res.status(500).json({ success: false, message: 'Registration failed. Please try again.' });
       return;
     }
@@ -133,21 +125,14 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       data: { userId: user.id, email: user.email, role: user.role },
     });
   } catch (error) {
-    console.error('Registration error:', error);
+    // Log the full error (including Prisma connection errors) so they appear in Render logs
+    console.error('[register] Unexpected error:', error);
     res.status(500).json({ success: false, message: 'An unexpected error occurred during registration.' });
   }
 };
 
 /**
  * Authenticates a user and issues a stateless JSON Web Token.
- *
- * @param {Request} req - Express request object containing credentials.
- * @param {Response} res - Express response object.
- *
- * @architecture
- * Uses constant-time dummy hash comparisons for invalid emails to prevent 
- * timing-based enumeration attacks. The resulting JWT payload is minimal 
- * (userId and role only) to enforce strict data isolation.
  */
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body as { email?: string; password?: string };
@@ -181,7 +166,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     const secret = process.env['JWT_SECRET'];
     if (!secret) {
-      console.error('FATAL: JWT_SECRET is not set in environment variables.');
+      console.error('[login] FATAL: JWT_SECRET is not set in environment variables.');
       res.status(500).json({ success: false, message: 'Internal server error.' });
       return;
     }
@@ -201,7 +186,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       },
     });
   } catch (error) {
-    console.error('Login error:', error);
+    // Log the full error (including Prisma/MongoDB connection errors) so they appear in Render logs
+    console.error('[login] Unexpected error:', error);
     res.status(500).json({ success: false, message: 'An unexpected error occurred during login.' });
   }
 };
