@@ -33,13 +33,13 @@ export default function CircularProgress({ score, size = 80, stroke = 8, classNa
         viewBox={`0 0 ${size} ${size}`}
         style={{ transform: 'rotate(-90deg)' }}
       >
-        {/* Track — light grey for light-theme readability */}
+        {/* Track — dark surface ring for dark-theme readability */}
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="#e2e8f0"
+          stroke="rgba(255,255,255,0.08)"
           strokeWidth={stroke}
         />
         {/* Fill */}

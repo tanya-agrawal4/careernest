@@ -290,59 +290,63 @@ export default function RecruiterDashboard() {
 
       {/* ── Page header ──────────────────────────────────────────────────── */}
       <div className="section-header">
-        <h1 className="text-2xl font-black text-slate-900">
+        <h1 className="text-2xl font-extrabold" style={{ color: '#f0f2f8', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           Recruiter Dashboard
         </h1>
-        <p className="text-slate-500 mt-1 text-sm">
+        <p className="mt-1 text-sm" style={{ color: '#8b92a9' }}>
           Manage your job postings and review AI-scored applicants
         </p>
       </div>
 
-      {/* ── Stats ─────────────────────────────────────────────────────────── */}
+      {/* ── Stats ──────────────────────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <StatCard
           label="Your Open Positions"
           value={activeJobs}
-          icon={<Briefcase size={20} className="text-indigo-600" />}
-          iconBg="bg-indigo-50"
+          icon={<Briefcase size={20} style={{ color: '#ff6b4a' }} />}
+          iconBg="rgba(255,107,74,0.12)"
+          iconBorder="rgba(255,107,74,0.2)"
           sub="Your active listings only"
         />
         <StatCard
           label="Total Applications Received"
           value={totalApps}
-          icon={<Users size={20} className="text-emerald-600" />}
-          iconBg="bg-emerald-50"
+          icon={<Users size={20} style={{ color: '#22d3a0' }} />}
+          iconBg="rgba(34,211,160,0.12)"
+          iconBorder="rgba(34,211,160,0.2)"
           sub="Across all your postings"
         />
       </div>
 
-      {/* ── Post job form ─────────────────────────────────────────────────── */}
+       {/* ── Post job form ───────────────────────────────────────────────── */}
       <div className="enterprise-card overflow-hidden">
         <button
           onClick={() => setFormOpen((v) => !v)}
-          className="w-full flex items-center justify-between px-6 py-5
-                     hover:bg-slate-50 transition-colors group"
+          className="w-full flex items-center justify-between px-6 py-5 transition-colors"
+          style={{ background: 'transparent' }}
+          onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.03)'}
+          onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'transparent'}
         >
           <div className="flex items-center gap-4">
-            <div className="p-2.5 bg-indigo-50 rounded-xl border border-indigo-100">
-              <PlusCircle size={20} className="text-indigo-600" />
+            <div className="p-2.5 rounded-xl" style={{ background: 'rgba(255,107,74,0.12)', border: '1px solid rgba(255,107,74,0.2)' }}>
+              <PlusCircle size={20} style={{ color: '#ff6b4a' }} />
             </div>
             <div className="text-left">
-              <p className="font-bold text-slate-900 text-base">Post a New Job</p>
-              <p className="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5 font-medium">
-                <Sparkles size={11} className="text-indigo-500" />
+              <p className="font-bold text-base" style={{ color: '#f0f2f8' }}>Post a New Job</p>
+              <p className="text-xs flex items-center gap-1.5 mt-0.5 font-semibold" style={{ color: '#8b92a9' }}>
+                <Sparkles size={11} style={{ color: '#ff6b4a' }} />
                 AI will automatically extract required skills from your description
               </p>
             </div>
           </div>
           {formOpen
-            ? <ChevronUp size={18} className="text-slate-400" />
-            : <ChevronDown size={18} className="text-slate-400" />
+            ? <ChevronUp size={18} style={{ color: '#8b92a9' }} />
+            : <ChevronDown size={18} style={{ color: '#8b92a9' }} />
           }
         </button>
 
         {formOpen && (
-          <div className="px-6 pb-6 border-t border-slate-200 bg-slate-50/50 animate-slide-up">
+          <div className="px-6 pb-6 border-t animate-slide-up" style={{ borderColor: 'rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
             <form onSubmit={(e) => { void handlePost(e); }} className="space-y-5 pt-6">
               <FormField
                 label="Job Title"
@@ -352,7 +356,7 @@ export default function RecruiterDashboard() {
               />
 
               <div>
-                <label className="block text-xs font-bold text-slate-600 mb-1.5 uppercase tracking-wider">
+                <label className="block text-xs font-bold mb-1.5 uppercase tracking-wider" style={{ color: '#8b92a9' }}>
                   Job Description
                 </label>
                 <textarea
@@ -361,15 +365,19 @@ export default function RecruiterDashboard() {
                   placeholder={`Describe the role, responsibilities, and requirements.\n\nExample:\nWe are looking for a React/Node.js developer with 1+ year of experience...\nRequired: React, TypeScript, MongoDB, REST APIs\nMin CGPA: 7.5`}
                   rows={6}
                   required
-                  className="w-full bg-white border border-slate-300 rounded-lg px-4 py-3
-                             text-sm text-slate-900 placeholder-slate-400 resize-y
-                             focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20
-                             transition-colors"
+                  className="w-full rounded-xl px-4 py-3 text-sm resize-y transition-all"
+                  style={{
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    color: '#f0f2f8',
+                    outline: 'none',
+                  }}
+                  onFocus={e => (e.target.style.borderColor = '#ff6b4a')}
+                  onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Conditional Float Input Parsing */}
                 <FormField
                   label="Min CGPA (optional — leave blank for AI to decide)"
                   value={minCgpa}
@@ -395,11 +403,14 @@ export default function RecruiterDashboard() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex-1 flex items-center justify-center gap-2
-                             bg-indigo-600 text-white
-                             font-bold py-2.5 rounded-lg hover:bg-indigo-700
-                             active:scale-[0.99] transition-all duration-150
-                             disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-sm"
+                  className="flex-1 flex items-center justify-center gap-2 font-bold py-2.5 rounded-xl text-sm transition-all duration-150"
+                  style={{
+                    background: 'linear-gradient(135deg, #ff6b4a, #ff9a5c)',
+                    color: '#ffffff',
+                    boxShadow: '0 4px 14px rgba(255,107,74,0.35)',
+                    opacity: submitting ? 0.5 : 1,
+                    cursor: submitting ? 'not-allowed' : 'pointer',
+                  }}
                 >
                   {submitting
                     ? <Loader2 size={16} className="animate-spin" />
@@ -410,8 +421,8 @@ export default function RecruiterDashboard() {
                 <button
                   type="button"
                   onClick={() => setFormOpen(false)}
-                  className="px-6 py-2.5 rounded-lg border border-slate-300 text-slate-600 bg-white
-                             hover:bg-slate-50 transition-colors text-sm font-semibold"
+                  className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#8b92a9' }}
                 >
                   Cancel
                 </button>
@@ -421,20 +432,21 @@ export default function RecruiterDashboard() {
         )}
       </div>
 
-      {/* ── Job listings ─────────────────────────────────────────────────── */}
+      {/* ── Job listings ───────────────────────────────────────────────────── */}
       <div className="enterprise-card p-6">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-sm font-bold text-slate-700 flex items-center gap-2">
-            <Briefcase size={16} className="text-indigo-500" />
+          <h2 className="text-sm font-bold flex items-center gap-2" style={{ color: '#f0f2f8' }}>
+            <Briefcase size={16} style={{ color: '#ff6b4a' }} />
             Your Postings
-            <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded-full text-xs font-bold border border-slate-200">
+            <span className="px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: 'rgba(255,255,255,0.07)', color: '#8b92a9', border: '1px solid rgba(255,255,255,0.1)' }}>
               {jobs.length}
             </span>
           </h2>
           <button
             onClick={() => void fetchJobs()}
             disabled={loadingJobs}
-            className="p-2 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+            className="p-2 rounded-xl transition-colors"
+            style={{ color: '#8b92a9' }}
             aria-label="Refresh"
           >
             <RefreshCw size={15} className={loadingJobs ? 'animate-spin' : ''} />
@@ -449,69 +461,76 @@ export default function RecruiterDashboard() {
           </div>
         ) : jobs.length === 0 ? (
           <div className="text-center py-16">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Briefcase size={28} className="text-slate-400" />
+            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <Briefcase size={28} style={{ color: '#8b92a9' }} />
             </div>
-            <p className="font-semibold text-slate-800 text-base">No jobs posted yet</p>
-            <p className="text-slate-400 text-sm mt-1">Click "Post a New Job" above to get started</p>
+            <p className="font-bold text-base" style={{ color: '#f0f2f8' }}>No jobs posted yet</p>
+            <p className="text-sm mt-1" style={{ color: '#8b92a9' }}>Click "Post a New Job" above to get started</p>
           </div>
         ) : (
           <div className="space-y-4">
             {jobs.map((job) => (
               <div
                 key={job.id}
-                className="border border-slate-200 rounded-xl overflow-hidden hover:border-indigo-300 hover:shadow-card-hover transition-all duration-200"
+                className="rounded-xl overflow-hidden transition-all duration-200"
+                style={{ border: '1px solid rgba(255,255,255,0.07)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,107,74,0.25)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(255,107,74,0.08)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.07)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}
               >
                 {/* Job Header */}
-                <div className="p-5 bg-white">
+                <div className="p-5" style={{ background: 'rgba(255,255,255,0.02)' }}>
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-slate-900 text-base truncate">{job.title}</h3>
-                      <p className="text-xs text-slate-400 mt-0.5 font-medium">
+                      <h3 className="font-bold text-base truncate" style={{ color: '#f0f2f8' }}>{job.title}</h3>
+                      <p className="text-xs mt-0.5 font-medium" style={{ color: '#8b92a9' }}>
                         Posted {new Date(job.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                       </p>
                     </div>
-                    <span className={cn(
-                      'flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-bold border',
-                      job.isActive
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                        : 'bg-slate-100 text-slate-500 border-slate-200',
-                    )}>
+                    <span
+                      className="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-bold"
+                      style={{
+                        background: job.isActive ? 'rgba(34,211,160,0.1)' : 'rgba(255,255,255,0.05)',
+                        color: job.isActive ? '#22d3a0' : '#8b92a9',
+                        border: job.isActive ? '1px solid rgba(34,211,160,0.25)' : '1px solid rgba(255,255,255,0.1)',
+                      }}
+                    >
                       {job.isActive ? '● Active' : '● Closed'}
                     </span>
                   </div>
 
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     {job.requiredSkills.slice(0, 5).map((s) => (
-                      <span key={s} className="px-2 py-0.5 bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-semibold rounded-md">
+                      <span key={s} className="px-2 py-0.5 text-xs font-bold rounded-lg" style={{ background: 'rgba(255,107,74,0.1)', border: '1px solid rgba(255,107,74,0.2)', color: '#ff9a5c' }}>
                         {s}
                       </span>
                     ))}
                     {job.requiredSkills.length > 5 && (
-                      <span className="text-slate-400 text-xs font-medium self-center px-1">
+                      <span className="text-xs font-medium self-center px-1" style={{ color: '#8b92a9' }}>
                         +{job.requiredSkills.length - 5} more
                       </span>
                     )}
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 pt-3 border-t border-slate-100">
-                    <span>CGPA ≥ <span className="font-bold text-slate-800">{job.minCgpa}</span></span>
-                    <span>Exp ≥ <span className="font-bold text-slate-800">{job.minExperience} yrs</span></span>
-                    <span className="font-semibold text-emerald-700">
+                  <div className="flex flex-wrap items-center gap-4 text-xs pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', color: '#8b92a9' }}>
+                    <span>CGPA ≥ <span className="font-bold" style={{ color: '#f0f2f8' }}>{job.minCgpa}</span></span>
+                    <span>Exp ≥ <span className="font-bold" style={{ color: '#f0f2f8' }}>{job.minExperience} yrs</span></span>
+                    <span className="font-bold" style={{ color: '#22d3a0' }}>
                       {job._count?.applications ?? 0} Applicant{(job._count?.applications ?? 0) !== 1 ? 's' : ''}
                     </span>
 
                     <div className="ml-auto flex items-center gap-3">
                       <button
                         onClick={() => void handleDeleteJob(job.id)}
-                        className="flex items-center gap-1 text-red-500 font-semibold hover:text-red-700 transition-colors text-xs"
+                        className="flex items-center gap-1 font-bold transition-colors text-xs"
+                        style={{ color: '#f87171' }}
                       >
                         <Trash2 size={13} />
                         Delete
                       </button>
                       <button
                         onClick={() => void handleViewApplicants(job.id)}
-                        className="flex items-center gap-1 text-indigo-600 font-semibold hover:text-indigo-800 transition-colors text-xs"
+                        className="flex items-center gap-1 font-bold transition-colors text-xs"
+                        style={{ color: '#ff6b4a' }}
                       >
                         <Users size={13} />
                         {viewingApplicantsFor === job.id ? 'Hide Applicants' : 'View Applicants'}
@@ -522,29 +541,29 @@ export default function RecruiterDashboard() {
 
                 {/* ── Real Applicants Panel ─────────────────────────────────── */}
                 {viewingApplicantsFor === job.id && (
-                  <div className="bg-slate-50 border-t border-slate-200 p-5 animate-slide-up">
-                    <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                      <Search size={13} className="text-indigo-500" />
+                  <div className="border-t p-5 animate-slide-up" style={{ background: 'rgba(255,255,255,0.015)', borderColor: 'rgba(255,255,255,0.07)' }}>
+                    <h4 className="text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2" style={{ color: '#8b92a9' }}>
+                      <Search size={13} style={{ color: '#ff6b4a' }} />
                       AI Ranked Applicants
                       {!loadingApplicants && (
-                        <span className="ml-auto text-indigo-600 font-bold normal-case text-sm">
+                        <span className="ml-auto font-bold normal-case text-sm" style={{ color: '#ff6b4a' }}>
                           {applicants.length} {applicants.length === 1 ? 'applicant' : 'applicants'}
                         </span>
                       )}
                     </h4>
 
                     {loadingApplicants ? (
-                      <div className="flex items-center justify-center py-8 gap-3 text-slate-400">
-                        <Loader2 size={20} className="animate-spin text-indigo-500" />
-                        <span className="text-sm font-medium">Loading applicants…</span>
+                      <div className="flex items-center justify-center py-8 gap-3" style={{ color: '#8b92a9' }}>
+                        <Loader2 size={20} className="animate-spin" style={{ color: '#ff6b4a' }} />
+                        <span className="text-sm font-semibold">Loading applicants…</span>
                       </div>
                     ) : applicants.length === 0 ? (
                       <div className="text-center py-10">
-                        <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-3">
-                          <Users size={22} className="text-slate-400" />
+                        <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                          <Users size={22} style={{ color: '#8b92a9' }} />
                         </div>
-                        <p className="font-medium text-slate-600 text-sm">No applications yet</p>
-                        <p className="text-slate-400 text-xs mt-1">Students will appear here once they apply</p>
+                        <p className="font-semibold text-sm" style={{ color: '#8b92a9' }}>No applications yet</p>
+                        <p className="text-xs mt-1" style={{ color: '#8b92a9', opacity: 0.6 }}>Students will appear here once they apply</p>
                       </div>
                     ) : (
                       <div className="space-y-3">
@@ -556,27 +575,37 @@ export default function RecruiterDashboard() {
                           return (
                             <div
                               key={applicant.id}
-                              className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-between
-                                         hover:border-indigo-200 hover:shadow-card transition-all duration-150"
+                              className="rounded-xl p-4 flex items-center justify-between transition-all duration-150"
+                              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
+                              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,107,74,0.2)'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,107,74,0.04)'; }}
+                              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.07)'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.03)'; }}
                             >
                               <div className="flex items-center gap-4">
                                 <div className="flex-shrink-0">
                                   <CircularProgress score={score} size={56} stroke={5} />
                                 </div>
                                 <div>
-                                  <p className="font-bold text-slate-900 text-sm">{name}</p>
-                                  <p className="text-xs text-slate-500 mt-0.5">
-                                    {applicant.student.college} · <span className="font-semibold">{applicant.student.cgpa}</span> CGPA
+                                  <p className="font-bold text-sm" style={{ color: '#f0f2f8' }}>{name}</p>
+                                  <p className="text-xs mt-0.5" style={{ color: '#8b92a9' }}>
+                                    {applicant.student.college} · <span className="font-bold" style={{ color: '#ff9a5c' }}>{applicant.student.cgpa}</span> CGPA
                                   </p>
                                   {/* Status badge */}
-                                  <span className={cn(
-                                    'inline-block mt-1.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide',
-                                    applicant.status === 'PENDING'
-                                      ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                                      : applicant.status === 'SHORTLISTED'
-                                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                                      : 'bg-red-50 text-red-700 border border-red-200',
-                                  )}>
+                                  <span
+                                    className="inline-block mt-1.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide"
+                                    style={{
+                                      background: applicant.status === 'PENDING'
+                                        ? 'rgba(245,158,11,0.1)'
+                                        : applicant.status === 'SHORTLISTED'
+                                        ? 'rgba(34,211,160,0.1)'
+                                        : 'rgba(248,113,113,0.1)',
+                                      color: applicant.status === 'PENDING' ? '#f59e0b' : applicant.status === 'SHORTLISTED' ? '#22d3a0' : '#f87171',
+                                      border: applicant.status === 'PENDING'
+                                        ? '1px solid rgba(245,158,11,0.25)'
+                                        : applicant.status === 'SHORTLISTED'
+                                        ? '1px solid rgba(34,211,160,0.25)'
+                                        : '1px solid rgba(248,113,113,0.25)',
+                                    }}
+                                  >
                                     {applicant.status}
                                   </span>
                                 </div>
@@ -593,10 +622,8 @@ export default function RecruiterDashboard() {
                                        type="button"
                                        disabled={viewingId === applicant.id}
                                        onClick={() => void handleViewResume(applicant.student.resumeUrl!, applicant.id)}
-                                       className="px-3 py-1.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100
-                                                  text-xs font-semibold rounded-lg transition-colors
-                                                  flex items-center gap-1.5 border border-indigo-100
-                                                  disabled:opacity-50 disabled:cursor-not-allowed"
+                                       className="px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                                       style={{ background: 'rgba(255,107,74,0.1)', color: '#ff9a5c', border: '1px solid rgba(255,107,74,0.2)' }}
                                        title="View resume in new tab"
                                      >
                                        {viewingId === applicant.id
@@ -615,10 +642,8 @@ export default function RecruiterDashboard() {
                                           || applicant.student.user.email;
                                         void handleDownloadResume(applicant.student.resumeUrl!, name, applicant.id);
                                       }}
-                                      className="px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100
-                                                 text-xs font-semibold rounded-lg transition-colors
-                                                 flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed
-                                                 border border-emerald-100"
+                                      className="px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                                      style={{ background: 'rgba(34,211,160,0.1)', color: '#22d3a0', border: '1px solid rgba(34,211,160,0.2)' }}
                                       title="Download resume as PDF"
                                     >
                                       {downloadingId === applicant.id
@@ -629,14 +654,15 @@ export default function RecruiterDashboard() {
                                     </button>
                                   </div>
                                 ) : (
-                                  <span className="px-3 py-1.5 bg-slate-100 text-slate-400 text-xs rounded-lg border border-slate-200">
+                                  <span className="px-3 py-1.5 text-xs rounded-xl" style={{ background: 'rgba(255,255,255,0.05)', color: '#8b92a9', border: '1px solid rgba(255,255,255,0.08)' }}>
                                     No Resume
                                   </span>
                                 )}
                                 {/* Contact via email */}
                                 <a
                                   href={`mailto:${applicant.student.user.email}`}
-                                  className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                                  className="p-1.5 rounded-xl transition-colors"
+                                  style={{ color: '#8b92a9' }}
                                   title={`Email ${applicant.student.user.email}`}
                                 >
                                   <Mail size={16} />
@@ -658,20 +684,20 @@ export default function RecruiterDashboard() {
   );
 }
 
-// ── Sub-components ─────────────────────────────────────────────────────────────
+// ── Sub-components ──────────────────────────────────────────────────────────────────────
 function StatCard({
-  label, value, icon, iconBg, sub,
+  label, value, icon, iconBg, iconBorder, sub,
 }: {
-  label: string; value: number; icon: React.ReactNode; iconBg: string; sub: string;
+  label: string; value: number; icon: React.ReactNode; iconBg: string; iconBorder?: string; sub: string;
 }) {
   return (
     <div className="stat-card">
       <div className="flex items-center justify-between mb-4">
-        <span className="text-slate-500 text-sm font-medium">{label}</span>
-        <div className={cn('p-2.5 rounded-xl', iconBg)}>{icon}</div>
+        <span className="text-sm font-semibold" style={{ color: '#8b92a9' }}>{label}</span>
+        <div className="p-2.5 rounded-xl" style={{ background: iconBg, border: `1px solid ${iconBorder ?? 'rgba(255,255,255,0.1)'}` }}>{icon}</div>
       </div>
-      <p className="text-4xl font-black text-slate-900">{value}</p>
-      <p className="text-slate-400 text-xs mt-2 font-medium">{sub}</p>
+      <p className="text-4xl font-black" style={{ color: '#f0f2f8', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{value}</p>
+      <p className="text-xs mt-2 font-semibold" style={{ color: '#8b92a9' }}>{sub}</p>
     </div>
   );
 }
@@ -684,7 +710,7 @@ function FormField({
 }) {
   return (
     <div>
-      <label className="block text-xs font-bold text-slate-600 mb-1.5 uppercase tracking-wider">
+      <label className="block text-xs font-bold mb-1.5 uppercase tracking-wider" style={{ color: '#8b92a9' }}>
         {label}
       </label>
       <input

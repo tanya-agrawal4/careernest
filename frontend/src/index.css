@@ -1,10 +1,30 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&display=swap');
 
 /* ============================================================
-   CareerNest — Enterprise Light Theme Design System
-   "High Trust · Extreme Readability · MAANG Grade"
+   CareerNest — White × Indigo
+   "Editorial Precision · Premium Clarity · Modern Craft"
+   ============================================================
+   Palette:
+     Background:    #ffffff  (pure white)
+     Surface:       #f9fafb  (gray-50 card base)
+     Surface-2:     #f3f4f6  (gray-100 elevated)
+     Border:        #e5e7eb  (gray-200)
+     Border-subtle: rgba(79,70,229,0.12)
+     Accent:        #4f46e5  (Indigo-600 — single accent)
+     Accent-light:  #818cf8  (Indigo-400 — gradient end)
+     Accent-tint:   rgba(79,70,229,0.08)
+     Text:          #111827  (gray-900 — near-black)
+     Text-muted:    #6b7280  (gray-500)
+     Text-subtle:   #9ca3af  (gray-400)
+     Success:       #059669  (emerald-600)
+     Warning:       #d97706  (amber-600)
+     Error:         #ef4444  (red-500)
+
+   Fonts:
+     Headings / Display: Playfair Display (serif — editorial warmth)
+     UI / Body:          Inter (sans-serif — maximum clarity)
    ============================================================ */
 
 @layer base {
@@ -17,30 +37,22 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #f8fafc; /* slate-50 — enterprise page bg */
-    color: #0f172a;            /* slate-900 — maximum readability */
+    background-color: #ffffff;
+    color: #111827;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
   body {
-    @apply font-sans antialiased;
+    @apply antialiased;
   }
 
   /* Light-mode scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #f1f5f9; /* slate-100 */
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #cbd5e1; /* slate-300 */
-    border-radius: 9999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8; /* slate-400 */
-  }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #f3f4f6; }
+  ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
 
-  /* Clean focus ring that works on light backgrounds */
+  /* Focus ring — Indigo glow */
   :focus-visible {
     outline: 2px solid #4f46e5;
     outline-offset: 2px;
@@ -49,111 +61,207 @@
 
 @layer utilities {
 
-  /* ── Typography gradient (Indigo → Violet on light bg) ── */
+  /* ── Gradient Text (Indigo) ── */
   .gradient-text {
-    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    background: linear-gradient(135deg, #4f46e5 0%, #818cf8 60%, #a5b4fc 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* ── Enterprise Card ── */
-  /* Standard white card with subtle shadow + slate-200 border */
+  /* ── Glassmorphism Card (primary surface) ── */
   .enterprise-card {
     background: #ffffff;
-    border: 1px solid #e2e8f0;   /* slate-200 */
-    border-radius: 0.75rem;       /* rounded-xl */
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.06), 0 1px 2px -1px rgba(0,0,0,0.04);
-    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.06),
+      0 4px 16px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
   }
   .enterprise-card:hover {
-    box-shadow: 0 4px 12px 0 rgba(0,0,0,0.08), 0 2px 6px -2px rgba(0,0,0,0.05);
-    border-color: #c7d2fe; /* indigo-200 */
+    box-shadow:
+      0 4px 24px rgba(79, 70, 229, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.06);
+    border-color: rgba(79, 70, 229, 0.3);
+    transform: translateY(-1px);
   }
 
   /* ── Match Score Badges ── */
   .badge-match-high {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold
-           bg-emerald-50 text-emerald-700 border border-emerald-200;
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold;
+    background: rgba(5, 150, 105, 0.09);
+    color: #059669;
+    border: 1px solid rgba(5, 150, 105, 0.25);
   }
   .badge-match-mid {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold
-           bg-amber-50 text-amber-700 border border-amber-200;
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold;
+    background: rgba(217, 119, 6, 0.09);
+    color: #d97706;
+    border: 1px solid rgba(217, 119, 6, 0.25);
   }
   .badge-match-low {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold
-           bg-red-50 text-red-700 border border-red-200;
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold;
+    background: rgba(239, 68, 68, 0.09);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.25);
   }
 
   /* ── Skill Gap Pills ── */
   .skill-matched {
-    @apply px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-md text-xs font-semibold;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: rgba(5, 150, 105, 0.08);
+    color: #059669;
+    border: 1px solid rgba(5, 150, 105, 0.2);
+    letter-spacing: 0.01em;
   }
   .skill-missing {
-    @apply px-2.5 py-1 bg-red-50 text-red-700 border border-red-200 rounded-md text-xs font-semibold;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    letter-spacing: 0.01em;
   }
 
-  /* ── Primary Button ── */
+  /* ── Primary Button (Indigo) ── */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2
-           bg-indigo-600 text-white font-semibold text-sm
-           px-5 py-2.5 rounded-lg
-           hover:bg-indigo-700 active:scale-[0.98]
-           transition-all duration-150 shadow-sm
-           disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 font-bold text-sm px-5 py-2.5 rounded-xl;
+    background: #4f46e5;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28);
+    transition: all 0.15s ease;
   }
+  .btn-primary:hover {
+    background: #4338ca;
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.38);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
 
   /* ── Ghost Button ── */
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2
-           text-slate-600 font-medium text-sm
-           px-4 py-2 rounded-lg
-           hover:bg-slate-100 hover:text-slate-900
-           transition-all duration-150;
+    @apply inline-flex items-center justify-center gap-2 font-medium text-sm px-4 py-2 rounded-xl;
+    color: #6b7280;
+    transition: all 0.15s ease;
+  }
+  .btn-ghost:hover {
+    background: #f3f4f6;
+    color: #111827;
   }
 
-  /* ── Stat metric card (Stripe-style) ── */
+  /* ── Stat Card ── */
   .stat-card {
     background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
     padding: 1.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.06);
-    transition: box-shadow 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.5), transparent);
   }
   .stat-card:hover {
-    box-shadow: 0 4px 12px 0 rgba(0,0,0,0.08);
+    box-shadow: 0 4px 24px rgba(79, 70, 229, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+    border-color: rgba(79, 70, 229, 0.25);
   }
 
-  /* ── Left-accent job card ── */
+  /* ── Job Card (left Indigo accent stripe) ── */
   .job-card {
     background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-left: 4px solid #4f46e5;
-    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-left: 3px solid #4f46e5;
+    border-radius: 1rem;
     padding: 1.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.05);
-    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
   }
   .job-card:hover {
-    box-shadow: 0 6px 20px 0 rgba(79,70,229,0.1);
-    border-color: #4f46e5;
+    box-shadow: 0 6px 24px rgba(79, 70, 229, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-color: rgba(79, 70, 229, 0.35);
   }
 
-  /* ── Section divider line ── */
+  /* ── Section header divider ── */
   .section-header {
-    @apply border-b border-slate-200 pb-4 mb-6;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
   }
 
   /* ── Skeleton loader (light mode) ── */
   .skeleton {
-    @apply bg-slate-100 rounded animate-pulse;
+    background: linear-gradient(90deg, #f3f4f6 25%, #e9ebee 50%, #f3f4f6 75%);
+    background-size: 200% 100%;
+    border-radius: 0.5rem;
+    animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  }
+  @keyframes skeleton-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
   }
 
-  /* ── Dot-grid background (hero / landing) ── */
+  /* ── Subtle dot-grid background ── */
   .dot-grid {
-    background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(79,70,229,0.12) 1px, transparent 1px);
     background-size: 24px 24px;
   }
+
+  /* ── Glow effect on accent icons ── */
+  .icon-glow-indigo {
+    filter: drop-shadow(0 0 6px rgba(79, 70, 229, 0.5));
+  }
+  .icon-glow-emerald {
+    filter: drop-shadow(0 0 6px rgba(5, 150, 105, 0.5));
+  }
+
+  /* ── Slide-up animation ── */
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-slide-up {
+    animation: slide-up 0.25s ease forwards;
+  }
+
+  /* ── Fade-in animation ── */
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.35s ease forwards;
+  }
+
+  /* ── Float animation (for landing page panels) ── */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-8px); }
+  }
+  .animate-float {
+    animation: float 5s ease-in-out infinite;
+  }
+
+  /* ── Hover card shadow ── */
+  .shadow-card       { box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04); }
+  .shadow-card-hover { box-shadow: 0 4px 24px rgba(79,70,229,0.12); }
 
 }

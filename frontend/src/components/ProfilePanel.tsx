@@ -114,27 +114,34 @@ export default function ProfilePanel({ isOpen, onClose }: ProfilePanelProps) {
     <>
       {/* Overlay */}
       <div 
-        className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-[100] transition-opacity"
+        className="fixed inset-0 backdrop-blur-sm z-[100] transition-opacity"
+        style={{ background: 'rgba(0,0,0,0.6)' }}
         onClick={onClose}
       />
 
       {/* Slide-in Panel */}
-      <div className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-[110] transform transition-transform duration-300 ease-in-out flex flex-col border-l border-slate-200">
+      <div
+        className="fixed top-0 right-0 h-full w-full max-w-md shadow-2xl z-[110] transform transition-transform duration-300 ease-in-out flex flex-col"
+        style={{ background: '#1a1d27', borderLeft: '1px solid rgba(255,255,255,0.08)' }}
+      >
         
         {/* Header */}
-        <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+        <div className="p-6 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-md">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-md" style={{ background: 'linear-gradient(135deg, #ff6b4a, #ff9a5c)' }}>
               <span className="text-white font-bold text-lg tracking-wide">{getInitials()}</span>
             </div>
             <div>
-              <h2 className="text-lg font-black text-slate-900">Profile Settings</h2>
-              <p className="text-sm text-slate-500 font-medium">{user?.email}</p>
+              <h2 className="text-lg font-extrabold" style={{ color: '#f0f2f8' }}>Profile Settings</h2>
+              <p className="text-sm font-medium" style={{ color: '#8b92a9' }}>{user?.email}</p>
             </div>
           </div>
           <button 
             onClick={onClose}
-            className="p-2 text-slate-400 hover:bg-slate-200 hover:text-slate-700 rounded-full transition-colors"
+            className="p-2 rounded-xl transition-colors"
+            style={{ color: '#8b92a9' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)'; (e.currentTarget as HTMLElement).style.color = '#f0f2f8'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#8b92a9'; }}
           >
             <X size={20} />
           </button>
@@ -143,9 +150,9 @@ export default function ProfilePanel({ isOpen, onClose }: ProfilePanelProps) {
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6">
           {loading ? (
-            <div className="flex flex-col items-center justify-center h-40 text-slate-400 gap-3">
-              <Loader2 className="animate-spin" size={24} />
-              <p className="text-sm font-medium">Loading profile...</p>
+            <div className="flex flex-col items-center justify-center h-40 gap-3" style={{ color: '#8b92a9' }}>
+              <Loader2 className="animate-spin" size={24} style={{ color: '#ff6b4a' }} />
+              <p className="text-sm font-semibold">Loading profile...</p>
             </div>
           ) : (
             <div className="space-y-5">

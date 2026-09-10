@@ -296,23 +296,26 @@ export default function StudentDashboard() {
     {
       label:    'Skills Parsed',
       value:    profile?.parsedSkills.length ?? 0,
-      icon:     <Zap size={20} className="text-indigo-600" />,
-      iconBg:   'bg-indigo-50',
-      color:    'text-indigo-600',
+      icon:     <Zap size={20} style={{ color: '#ff6b4a' }} />,
+      iconBg:   'rgba(255,107,74,0.12)',
+      iconBorder: 'rgba(255,107,74,0.2)',
+      color:    '#ff6b4a',
     },
     {
       label:    'Job Matches',
       value:    matches.length,
-      icon:     <Trophy size={20} className="text-emerald-600" />,
-      iconBg:   'bg-emerald-50',
-      color:    'text-emerald-600',
+      icon:     <Trophy size={20} style={{ color: '#22d3a0' }} />,
+      iconBg:   'rgba(34,211,160,0.12)',
+      iconBorder: 'rgba(34,211,160,0.2)',
+      color:    '#22d3a0',
     },
     {
       label:    'Top Score',
       value:    matches[0] ? `${matches[0].matchScore}%` : '—',
-      icon:     <TrendingUp size={20} className="text-violet-600" />,
-      iconBg:   'bg-violet-50',
-      color:    'text-violet-600',
+      icon:     <TrendingUp size={20} style={{ color: '#c084fc' }} />,
+      iconBg:   'rgba(192,132,252,0.12)',
+      iconBorder: 'rgba(192,132,252,0.2)',
+      color:    '#c084fc',
     },
   ];
 
@@ -323,12 +326,12 @@ export default function StudentDashboard() {
       <div className="section-header">
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-2xl font-black text-slate-900">
+            <h1 className="text-2xl font-extrabold" style={{ color: '#f0f2f8', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Student Dashboard
             </h1>
-            <p className="text-slate-500 mt-1 text-sm">
+            <p className="mt-1 text-sm" style={{ color: '#8b92a9' }}>
               Welcome back,{' '}
-              <span className="text-slate-700 font-semibold">
+              <span className="font-bold" style={{ color: '#ff9a5c' }}>
                 {(profile?.firstName?.trim())
                   ? `${profile.firstName}${profile.lastName?.trim() ? ' ' + profile.lastName : ''}`.trim()
                   : 'Student'}
@@ -336,9 +339,9 @@ export default function StudentDashboard() {
             </p>
           </div>
           {profile && (
-            <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2">
-              <CheckCircle size={16} className="text-emerald-600" />
-              <span className="text-xs font-semibold text-emerald-700">Profile Active</span>
+            <div className="flex items-center gap-2 rounded-xl px-3 py-2" style={{ background: 'rgba(34,211,160,0.1)', border: '1px solid rgba(34,211,160,0.25)' }}>
+              <CheckCircle size={16} style={{ color: '#22d3a0' }} />
+              <span className="text-xs font-bold" style={{ color: '#22d3a0' }}>Profile Active</span>
             </div>
           )}
         </div>
@@ -353,16 +356,16 @@ export default function StudentDashboard() {
                 <div className="skeleton h-8 w-16" />
               </div>
             ))
-          : stats.map(({ label, value, icon, iconBg }) => (
+          : stats.map(({ label, value, icon, iconBg, iconBorder, color }) => (
               <div
                 key={label}
                 className="enterprise-card p-6"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-slate-500 text-sm font-medium">{label}</span>
-                  <div className={cn('p-2 rounded-lg', iconBg)}>{icon}</div>
+                  <span className="text-sm font-semibold" style={{ color: '#8b92a9' }}>{label}</span>
+                  <div className="p-2 rounded-xl" style={{ background: iconBg, border: `1px solid ${iconBorder}` }}>{icon}</div>
                 </div>
-                <p className="text-3xl font-black text-slate-900">{value}</p>
+                <p className="text-3xl font-black" style={{ color, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{value}</p>
               </div>
             ))
         }
@@ -371,20 +374,20 @@ export default function StudentDashboard() {
       {/* ── Profile info strip ───────────────────────────────────────────── */}
       {profile && (
         <div className="enterprise-card p-6">
-          <h2 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-            <GraduationCap size={14} className="text-indigo-500" />
+          <h2 className="text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2" style={{ color: '#8b92a9' }}>
+            <GraduationCap size={14} style={{ color: '#ff6b4a' }} />
             Profile Overview
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
-              { label: 'CGPA',       value: profile.cgpa.toFixed(1),                  accent: 'text-indigo-700' },
-              { label: 'Experience', value: `${profile.experienceYears} yrs`,          accent: 'text-slate-900' },
-              { label: 'College',    value: profile.college,                            accent: 'text-slate-900' },
-              { label: 'Resume',     value: profile.resumeUrl ? 'Uploaded ✓' : 'Missing', accent: profile.resumeUrl ? 'text-emerald-700' : 'text-red-600' },
-            ].map(({ label, value, accent }) => (
-              <div key={label} className="bg-slate-50 rounded-lg p-3 border border-slate-200">
-                <p className="text-xs text-slate-400 uppercase tracking-wider mb-1 font-medium">{label}</p>
-                <p className={cn('text-sm font-bold truncate', accent)}>{value}</p>
+              { label: 'CGPA',       value: profile.cgpa.toFixed(1),                     color: '#ff9a5c' },
+              { label: 'Experience', value: `${profile.experienceYears} yrs`,             color: '#f0f2f8' },
+              { label: 'College',    value: profile.college,                               color: '#f0f2f8' },
+              { label: 'Resume',     value: profile.resumeUrl ? 'Uploaded ✓' : 'Missing', color: profile.resumeUrl ? '#22d3a0' : '#f87171' },
+            ].map(({ label, value, color }) => (
+              <div key={label} className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <p className="text-xs uppercase tracking-wider mb-1 font-semibold" style={{ color: '#8b92a9' }}>{label}</p>
+                <p className="text-sm font-bold truncate" style={{ color }}>{value}</p>
               </div>
             ))}
           </div>
@@ -392,16 +395,16 @@ export default function StudentDashboard() {
           {/* Skills */}
           {profile.parsedSkills.length > 0 && (
             <div className="mt-5">
-              <p className="text-xs text-slate-400 uppercase tracking-widest mb-2 font-bold flex items-center gap-1.5">
-                <Zap size={12} className="text-indigo-500" />
+              <p className="text-xs uppercase tracking-widest mb-2 font-bold flex items-center gap-1.5" style={{ color: '#8b92a9' }}>
+                <Zap size={12} style={{ color: '#ff6b4a' }} />
                 Parsed Skills from Resume
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {profile.parsedSkills.map((skill) => (
                   <span
                     key={skill}
-                    className="px-2.5 py-1 bg-indigo-50 border border-indigo-100
-                               text-indigo-700 text-xs font-semibold rounded-md"
+                    className="px-2.5 py-1 text-xs font-bold rounded-lg"
+                    style={{ background: 'rgba(255,107,74,0.1)', border: '1px solid rgba(255,107,74,0.2)', color: '#ff9a5c' }}
                   >
                     {skill}
                   </span>
@@ -414,8 +417,8 @@ export default function StudentDashboard() {
 
       {/* ── Resume upload dropzone ────────────────────────────────────────── */}
       <div className="enterprise-card p-6">
-        <h2 className="text-sm font-bold text-slate-700 flex items-center gap-2 mb-4">
-          <FileText size={16} className="text-indigo-500" />
+        <h2 className="text-sm font-bold flex items-center gap-2 mb-4" style={{ color: '#f0f2f8' }}>
+          <FileText size={16} style={{ color: '#ff6b4a' }} />
           Resume Upload
         </h2>
 
@@ -429,40 +432,46 @@ export default function StudentDashboard() {
             const file = e.dataTransfer.files[0];
             if (file) void handleUpload(file);
           }}
-          className={cn(
-            'border-2 border-dashed rounded-xl p-10 flex flex-col items-center justify-center gap-3',
-            'cursor-pointer transition-all duration-200',
-            uploading
-              ? 'border-indigo-300 bg-indigo-50/50 cursor-not-allowed'
+          className="border-2 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all duration-200"
+          style={{
+            borderColor: uploading
+              ? 'rgba(255,107,74,0.4)'
               : dragOver
-              ? 'border-indigo-500 bg-indigo-50 scale-[1.01]'
-              : 'border-slate-300 bg-slate-50 hover:border-indigo-400 hover:bg-indigo-50/30',
-          )}
+              ? '#ff6b4a'
+              : 'rgba(255,255,255,0.12)',
+            background: uploading
+              ? 'rgba(255,107,74,0.06)'
+              : dragOver
+              ? 'rgba(255,107,74,0.08)'
+              : 'rgba(255,255,255,0.02)',
+            transform: dragOver ? 'scale(1.01)' : 'scale(1)',
+            cursor: uploading ? 'not-allowed' : 'pointer',
+          }}
         >
           {uploading ? (
             <>
-              <Loader2 size={36} className="text-indigo-500 animate-spin" />
-              <p className="text-indigo-600 font-semibold text-sm">Uploading & parsing…</p>
-              <p className="text-indigo-400 text-xs">AI is extracting your skills</p>
+              <Loader2 size={36} style={{ color: '#ff6b4a' }} className="animate-spin" />
+              <p className="font-bold text-sm" style={{ color: '#ff9a5c' }}>Uploading &amp; parsing…</p>
+              <p className="text-xs" style={{ color: '#8b92a9' }}>AI is extracting your skills</p>
             </>
           ) : profile?.resumeUrl ? (
             <>
-              <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
-                <CheckCircle size={24} className="text-emerald-600" />
+              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(34,211,160,0.12)', border: '1px solid rgba(34,211,160,0.25)' }}>
+                <CheckCircle size={24} style={{ color: '#22d3a0' }} />
               </div>
-              <p className="text-emerald-700 font-semibold text-sm">Resume uploaded ✓</p>
-              <p className="text-slate-400 text-xs">Drop a new PDF to replace it</p>
+              <p className="font-bold text-sm" style={{ color: '#22d3a0' }}>Resume uploaded ✓</p>
+              <p className="text-xs" style={{ color: '#8b92a9' }}>Drop a new PDF to replace it</p>
             </>
           ) : (
             <>
-              <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
-                <UploadCloud size={24} className="text-slate-400" />
+              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <UploadCloud size={24} style={{ color: '#8b92a9' }} />
               </div>
-              <p className="text-slate-700 font-semibold text-sm">
+              <p className="font-bold text-sm" style={{ color: '#f0f2f8' }}>
                 Drop your PDF here or{' '}
-                <span className="text-indigo-600 underline underline-offset-2">click to browse</span>
+                <span style={{ color: '#ff6b4a', textDecoration: 'underline', textUnderlineOffset: '3px' }}>click to browse</span>
               </p>
-              <p className="text-slate-400 text-xs">Max 5 MB · PDF only · AI parses on upload</p>
+              <p className="text-xs" style={{ color: '#8b92a9' }}>Max 5 MB · PDF only · AI parses on upload</p>
             </>
           )}
         </div>
@@ -483,11 +492,11 @@ export default function StudentDashboard() {
       {/* ── Job matches feed ─────────────────────────────────────────────── */}
       <div className="enterprise-card p-6">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-sm font-bold text-slate-700 flex items-center gap-2">
-            <Briefcase size={16} className="text-indigo-500" />
+          <h2 className="text-sm font-bold flex items-center gap-2" style={{ color: '#f0f2f8' }}>
+            <Briefcase size={16} style={{ color: '#ff6b4a' }} />
             AI Job Matches
             {!loadingMatches && matches.length > 0 && (
-              <span className="ml-1 px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold">
+              <span className="ml-1 px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: 'rgba(255,107,74,0.12)', color: '#ff9a5c', border: '1px solid rgba(255,107,74,0.2)' }}>
                 {matches.length}
               </span>
             )}
@@ -495,7 +504,8 @@ export default function StudentDashboard() {
           <button
             onClick={() => void fetchMatches()}
             disabled={loadingMatches}
-            className="p-2 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+            className="p-2 rounded-xl transition-colors"
+            style={{ color: '#8b92a9' }}
             aria-label="Refresh matches"
           >
             <RefreshCw size={15} className={loadingMatches ? 'animate-spin' : ''} />
@@ -505,7 +515,7 @@ export default function StudentDashboard() {
         {loadingMatches ? (
           <div className="space-y-4">
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="border border-slate-200 rounded-xl p-5">
+              <div key={i} className="rounded-xl p-5" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
                 <div className="skeleton h-4 w-1/2 mb-3" />
                 <div className="skeleton h-3 w-1/3" />
               </div>
@@ -513,11 +523,11 @@ export default function StudentDashboard() {
           </div>
         ) : matches.length === 0 ? (
           <div className="text-center py-16">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Briefcase size={28} className="text-slate-400" />
+            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <Briefcase size={28} style={{ color: '#8b92a9' }} />
             </div>
-            <p className="font-semibold text-slate-700 text-base">No matches yet</p>
-            <p className="text-slate-400 text-sm mt-1">Upload your resume to start matching jobs</p>
+            <p className="font-bold text-base" style={{ color: '#f0f2f8' }}>No matches yet</p>
+            <p className="text-sm mt-1" style={{ color: '#8b92a9' }}>Upload your resume to start matching jobs</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -551,24 +561,24 @@ export default function StudentDashboard() {
 
                     {/* Job info */}
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-black text-slate-900 text-lg leading-snug mb-1">{job.title}</h3>
+                      <h3 className="font-black text-lg leading-snug mb-1" style={{ color: '#f0f2f8' }}>{job.title}</h3>
                       {job.recruiter?.recruiterProfile && (
-                        <p className="text-sm text-slate-500 mb-3 flex items-center gap-1.5">
-                          <Building2 size={13} className="text-slate-400" />
-                          <span className="font-semibold text-slate-700">
+                        <p className="text-sm mb-3 flex items-center gap-1.5" style={{ color: '#8b92a9' }}>
+                          <Building2 size={13} style={{ color: '#8b92a9' }} />
+                          <span className="font-bold" style={{ color: '#ff9a5c' }}>
                             {job.recruiter.recruiterProfile.companyName}
                           </span>
-                          <span className="text-slate-400">·</span>
+                          <span style={{ color: '#8b92a9' }}>·</span>
                           <span>{job.recruiter.recruiterProfile.designation}</span>
                         </p>
                       )}
 
-                      <div className="flex gap-3 text-xs text-slate-500">
-                        <span className="flex items-center gap-1 bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1 font-medium">
-                          Min CGPA: <span className="text-slate-800 font-bold ml-0.5">{job.minCgpa}</span>
+                      <div className="flex gap-3 text-xs" style={{ color: '#8b92a9' }}>
+                        <span className="flex items-center gap-1 rounded-lg px-2.5 py-1 font-semibold" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                          Min CGPA: <span className="font-black ml-0.5" style={{ color: '#f0f2f8' }}>{job.minCgpa}</span>
                         </span>
-                        <span className="flex items-center gap-1 bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1 font-medium">
-                          Min Exp: <span className="text-slate-800 font-bold ml-0.5">{job.minExperience} yrs</span>
+                        <span className="flex items-center gap-1 rounded-lg px-2.5 py-1 font-semibold" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                          Min Exp: <span className="font-black ml-0.5" style={{ color: '#f0f2f8' }}>{job.minExperience} yrs</span>
                         </span>
                       </div>
                     </div>
@@ -577,16 +587,23 @@ export default function StudentDashboard() {
                     <button
                       onClick={() => void handleApply(job.id, job.title)}
                       disabled={applying === job.id || !canApply}
-                      className={cn(
-                        'flex-shrink-0 flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg',
-                        'text-sm font-bold transition-all duration-150 w-full sm:w-auto',
-                        isApplied
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-not-allowed'
+                      className="flex-shrink-0 flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-150 w-full sm:w-auto"
+                      style={{
+                        background: isApplied
+                          ? 'rgba(34,211,160,0.1)'
                           : canApply
-                            ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm active:scale-[0.98]'
-                            : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200',
-                        applying === job.id && 'opacity-70 cursor-not-allowed',
-                      )}
+                          ? 'linear-gradient(135deg, #ff6b4a, #ff9a5c)'
+                          : 'rgba(255,255,255,0.04)',
+                        color: isApplied ? '#22d3a0' : canApply ? '#ffffff' : '#8b92a9',
+                        border: isApplied
+                          ? '1px solid rgba(34,211,160,0.25)'
+                          : canApply
+                          ? 'none'
+                          : '1px solid rgba(255,255,255,0.08)',
+                        boxShadow: canApply && !isApplied ? '0 4px 14px rgba(255,107,74,0.35)' : 'none',
+                        cursor: (!canApply || applying === job.id) ? 'not-allowed' : 'pointer',
+                        opacity: applying === job.id ? 0.6 : 1,
+                      }}
                     >
                       {applying === job.id ? (
                         <Loader2 size={15} className="animate-spin" />
@@ -600,8 +617,8 @@ export default function StudentDashboard() {
                   </div>
 
                   {/* ── Skill Gap Analysis ────────────────────────────── */}
-                  <div className="pt-4 border-t border-slate-100">
-                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">
+                  <div className="pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+                    <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#8b92a9' }}>
                       Skill Gap Analysis
                     </h4>
                     <div className="flex flex-col gap-3">
@@ -618,48 +635,51 @@ export default function StudentDashboard() {
 
                       {/* Smart Resume Improvement Advice */}
                       {missing.length === 0 && matched.length > 0 ? (
-                        <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-start gap-2.5">
-                          <CheckCircle size={15} className="text-emerald-600 mt-0.5 flex-shrink-0" />
+                        <div className="rounded-xl p-3 flex items-start gap-2.5" style={{ background: 'rgba(34,211,160,0.08)', border: '1px solid rgba(34,211,160,0.2)' }}>
+                          <CheckCircle size={15} className="mt-0.5 flex-shrink-0" style={{ color: '#22d3a0' }} />
                           <div>
-                            <p className="text-sm font-bold text-emerald-800">Perfect Match! 🎉</p>
-                            <p className="text-xs text-emerald-700 mt-0.5">
+                            <p className="text-sm font-bold" style={{ color: '#22d3a0' }}>Perfect Match! 🎉</p>
+                            <p className="text-xs mt-0.5" style={{ color: '#6ee7ca' }}>
                               Your resume covers all {matched.length} required skill{matched.length !== 1 ? 's' : ''}.
                               You have a strong chance of standing out to {companyName}.
                             </p>
                           </div>
                         </div>
                       ) : missing.length > 0 ? (
-                        <div className={cn(
-                          'rounded-xl p-4 space-y-3 border',
-                          missing.length <= 2
-                            ? 'bg-amber-50 border-amber-100'
-                            : missing.length <= 5
-                            ? 'bg-orange-50 border-orange-100'
-                            : 'bg-red-50 border-red-100',
-                        )}>
+                        <div
+                          className="rounded-xl p-4 space-y-3"
+                          style={{
+                            background: missing.length <= 2
+                              ? 'rgba(245,158,11,0.07)'
+                              : missing.length <= 5
+                              ? 'rgba(251,146,60,0.07)'
+                              : 'rgba(248,113,113,0.07)',
+                            border: `1px solid ${
+                              missing.length <= 2
+                                ? 'rgba(245,158,11,0.2)'
+                                : missing.length <= 5
+                                ? 'rgba(251,146,60,0.2)'
+                                : 'rgba(248,113,113,0.2)'
+                            }`,
+                          }}
+                        >
                           {/* Header */}
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <Info size={14} className={cn(
-                                'flex-shrink-0',
-                                missing.length <= 2 ? 'text-amber-600' : missing.length <= 5 ? 'text-orange-600' : 'text-red-500',
-                              )} />
-                              <p className={cn(
-                                'text-xs font-bold uppercase tracking-wide',
-                                missing.length <= 2 ? 'text-amber-800' : missing.length <= 5 ? 'text-orange-800' : 'text-red-800',
-                              )}>
+                              <Info size={14} className="flex-shrink-0" style={{ color: missing.length <= 2 ? '#f59e0b' : missing.length <= 5 ? '#fb923c' : '#f87171' }} />
+                              <p className="text-xs font-bold uppercase tracking-wide" style={{ color: missing.length <= 2 ? '#f59e0b' : missing.length <= 5 ? '#fb923c' : '#f87171' }}>
                                 {missing.length <= 2 ? 'Almost There — ' : missing.length <= 5 ? 'Skill Gap — ' : 'Significant Gap — '}
                                 {matched.length}/{matched.length + missing.length} skills matched
                               </p>
                             </div>
-                            <span className={cn(
-                              'text-[10px] font-bold px-2 py-0.5 rounded-full border',
-                              missing.length <= 2
-                                ? 'bg-amber-100 text-amber-700 border-amber-200'
-                                : missing.length <= 5
-                                ? 'bg-orange-100 text-orange-700 border-orange-200'
-                                : 'bg-red-100 text-red-700 border-red-200',
-                            )}>
+                            <span
+                              className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                              style={{
+                                background: missing.length <= 2 ? 'rgba(245,158,11,0.15)' : missing.length <= 5 ? 'rgba(251,146,60,0.15)' : 'rgba(248,113,113,0.15)',
+                                color: missing.length <= 2 ? '#f59e0b' : missing.length <= 5 ? '#fb923c' : '#f87171',
+                                border: `1px solid ${ missing.length <= 2 ? 'rgba(245,158,11,0.3)' : missing.length <= 5 ? 'rgba(251,146,60,0.3)' : 'rgba(248,113,113,0.3)' }`,
+                              }}
+                            >
                               {missing.length} missing
                             </span>
                           </div>
@@ -672,15 +692,16 @@ export default function StudentDashboard() {
                               return (
                                 <div
                                   key={skill}
-                                  className="flex items-start gap-2.5 bg-white/70 rounded-lg p-2.5 border border-white/80 shadow-sm"
+                                  className="flex items-start gap-2.5 rounded-xl p-2.5"
+                                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
                                 >
-                                  <span className={cn(
-                                    'w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0',
-                                    missing.length <= 2 ? 'bg-amber-400' : missing.length <= 5 ? 'bg-orange-400' : 'bg-red-400',
-                                  )} />
+                                  <span
+                                    className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                                    style={{ background: missing.length <= 2 ? '#f59e0b' : missing.length <= 5 ? '#fb923c' : '#f87171' }}
+                                  />
                                   <div className="min-w-0">
-                                    <span className="text-xs font-bold text-slate-800 capitalize">{skill}</span>
-                                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{advice}</p>
+                                    <span className="text-xs font-bold capitalize" style={{ color: '#f0f2f8' }}>{skill}</span>
+                                    <p className="text-xs mt-0.5 leading-relaxed" style={{ color: '#8b92a9' }}>{advice}</p>
                                   </div>
                                 </div>
                               );
@@ -689,10 +710,7 @@ export default function StudentDashboard() {
 
                           {/* Overflow indicator */}
                           {missing.length > 3 && (
-                            <p className={cn(
-                              'text-xs font-medium pl-4',
-                              missing.length <= 5 ? 'text-orange-700' : 'text-red-700',
-                            )}>
+                            <p className="text-xs font-semibold pl-4" style={{ color: missing.length <= 5 ? '#fb923c' : '#f87171' }}>
                               + {missing.length - 3} more skill{missing.length - 3 > 1 ? 's' : ''} to work on — focus on the above first.
                             </p>
                           )}
