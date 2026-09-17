@@ -7,7 +7,6 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
-import { cn } from '../../lib/cn';
 import CircularProgress from '../../components/CircularProgress';
 
 // =============================================================================
@@ -108,8 +107,8 @@ export default function RecruiterDashboard() {
         title: title.trim(),
         description: description.trim(),
         // Send empty strings as undefined so the backend defaults to LLM extraction
-        minCgpa:      minCgpa.trim()  ? parseFloat(minCgpa)  : undefined,
-        minExperience: minExp.trim()  ? parseFloat(minExp)   : undefined,
+        minCgpa: minCgpa.trim() ? parseFloat(minCgpa) : undefined,
+        minExperience: minExp.trim() ? parseFloat(minExp) : undefined,
       });
 
       toast.success('Job posted! AI has parsed the skills. 🤖');
@@ -318,7 +317,7 @@ export default function RecruiterDashboard() {
         />
       </div>
 
-       {/* ── Post job form ───────────────────────────────────────────────── */}
+      {/* ── Post job form ───────────────────────────────────────────────── */}
       <div className="enterprise-card overflow-hidden">
         <button
           onClick={() => setFormOpen((v) => !v)}
@@ -596,14 +595,14 @@ export default function RecruiterDashboard() {
                                       background: applicant.status === 'PENDING'
                                         ? 'rgba(245,158,11,0.1)'
                                         : applicant.status === 'SHORTLISTED'
-                                        ? 'rgba(34,211,160,0.1)'
-                                        : 'rgba(248,113,113,0.1)',
+                                          ? 'rgba(34,211,160,0.1)'
+                                          : 'rgba(248,113,113,0.1)',
                                       color: applicant.status === 'PENDING' ? '#f59e0b' : applicant.status === 'SHORTLISTED' ? '#22d3a0' : '#f87171',
                                       border: applicant.status === 'PENDING'
                                         ? '1px solid rgba(245,158,11,0.25)'
                                         : applicant.status === 'SHORTLISTED'
-                                        ? '1px solid rgba(34,211,160,0.25)'
-                                        : '1px solid rgba(248,113,113,0.25)',
+                                          ? '1px solid rgba(34,211,160,0.25)'
+                                          : '1px solid rgba(248,113,113,0.25)',
                                     }}
                                   >
                                     {applicant.status}
@@ -614,25 +613,25 @@ export default function RecruiterDashboard() {
                                 {/* Resume Actions — only shown if student has uploaded a resume */}
                                 {applicant.student.resumeUrl ? (
                                   <div className="flex items-center gap-1.5">
-                                     {/* View: fetch→Blob→window.open so browser PDF viewer
+                                    {/* View: fetch→Blob→window.open so browser PDF viewer
                                          opens correctly even for Cloudinary raw resources
                                          (plain <a href> shows garbled binary text because
                                           Cloudinary serves raw files as octet-stream) */}
-                                     <button
-                                       type="button"
-                                       disabled={viewingId === applicant.id}
-                                       onClick={() => void handleViewResume(applicant.student.resumeUrl!, applicant.id)}
-                                       className="px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
-                                       style={{ background: 'rgba(255,107,74,0.1)', color: '#ff9a5c', border: '1px solid rgba(255,107,74,0.2)' }}
-                                       title="View resume in new tab"
-                                     >
-                                       {viewingId === applicant.id
-                                         ? <Loader2 size={12} className="animate-spin" />
-                                         : <FileText size={12} />}
-                                       {viewingId === applicant.id ? 'Opening…' : 'View'}
-                                       {viewingId !== applicant.id && <ExternalLink size={10} />}
-                                     </button>
-                                     {/* Download: fetch→Blob→createObjectURL pattern
+                                    <button
+                                      type="button"
+                                      disabled={viewingId === applicant.id}
+                                      onClick={() => void handleViewResume(applicant.student.resumeUrl!, applicant.id)}
+                                      className="px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                                      style={{ background: 'rgba(255,107,74,0.1)', color: '#ff9a5c', border: '1px solid rgba(255,107,74,0.2)' }}
+                                      title="View resume in new tab"
+                                    >
+                                      {viewingId === applicant.id
+                                        ? <Loader2 size={12} className="animate-spin" />
+                                        : <FileText size={12} />}
+                                      {viewingId === applicant.id ? 'Opening…' : 'View'}
+                                      {viewingId !== applicant.id && <ExternalLink size={10} />}
+                                    </button>
+                                    {/* Download: fetch→Blob→createObjectURL pattern
                                         bypasses ALL cross-origin download restrictions */}
                                     <button
                                       type="button"
